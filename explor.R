@@ -1,5 +1,5 @@
 getwd()
-setwd("C:\\Users\\user\\Dropbox\\Data_science\\R\\R_exam")
+setwd("D:\\Data Science\\Git\\2024_R_UNSAM")
 
 library(tidyverse)
 
@@ -22,10 +22,12 @@ df_clae2_promedio <- df_clae2_promedio %>%
 df_clae2_promedio <- df_clae2_promedio %>%
   left_join(df_depart, by = c("codigo_departamento_indec", "id_provincia_indec"))
 
+df_clae2_promedio <- df_clae2_promedio %>% 
+  mutate(year = year(fecha))
 
 # EDA
 df_clae2_promedio %>% 
-  select(fecha, 
+  select(year, 
          w_mean, 
          clae2_desc, 
          letra_desc, 
