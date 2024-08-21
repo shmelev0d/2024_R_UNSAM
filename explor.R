@@ -26,7 +26,6 @@ df_clae2_promedio_joint <- df_clae2_promedio %>%
   mutate(year = year(fecha))
 
 
-
 # EDA
 df_clae2_promedio_joint %>% 
   select(year, 
@@ -43,16 +42,48 @@ max(df_clae2_promedio_joint$w_mean)
 mean(df_clae2_promedio_joint$w_mean)
 median(df_clae2_promedio_joint$w_mean)
 
+
 df_clae2_promedio_joint %>%
   filter(w_mean == -99)   # casi una cuarta de los registros
+
+df_clae2_promedio_joint %>%
+  filter(w_mean == 154) 
 
 promedio_sectores <- df_clae2_promedio_joint %>%
   group_by(letra_desc) %>%
   summarize(promedio = mean(w_mean))
 
+
 ggplot(promedio_sectores, aes(x = letra_desc, y = promedio)) +
   geom_col() + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 5))
+
+# Sectores elegidos: enseñanza, salud, Construcción, servicio de transporte, servicio de financiera y seguros. 
+
+# la cantidad de NA-s (-99)
+
+num_NAs <- df_clae2_promedio_joint %>%
+  group_by(letra_desc) %>%
+  summarize(NAs_by_sectors = sum(w_mean == -99))
+
+ggplot(num_NAs, aes(x = NAs_by_sectors, y = letra_desc)) + 
+  geom_col(fill = "steelblue")
+
+# dataframe con solo sectores elegidos
+
+sectores_filter <- df_clae2_promedio_joint %>%
+  select(year, 
+         w_mean, 
+         letra,
+         letra_desc, 
+         nom_depto,
+         nom_provincia) %>%
+  filter(letra %in% c("F", "H","P", "Q")) %>%
+  arrange(letra, nom_provincia)
+
+sectores_filter  
+
+
 
 
 
