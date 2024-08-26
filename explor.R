@@ -14,6 +14,19 @@ unique(df_depart[, c("id_provincia_indec", "nombre_provincia_indec")])
 df_clae2_promedio <- read_csv("data/w_mean_depto_total_clae2.csv")
 df_clae2_promedio
 
+geodata <- read_sf("data/departamentos_arg.geojson")
+geodata
+names(geodata)
+unique(st_drop_geometry(geodata)[, c("provincia", "codpcia")]) %>%
+  print(n = 23)
+
+geodata %>%
+  filter(provincia == "Ciudad Autónoma de Buenos Aires")
+
+
+ggplot(geodata) + 
+  geom_sf(aes(fill = provincia)) + 
+  scale_fill_viridis_d()
 
 
 ## join data
